@@ -56,6 +56,7 @@ struct cfg {
 	GDBusNodeInfo *introspection_data;
 	GMainLoop *loop;
 	GList *players;
+	GDBusConnection *connection;
 };
 
 static gboolean
@@ -169,7 +170,7 @@ release_media_player_keys(struct cfg *cfg,
 
 
 static void
-press_media_key(struct cfg *cfg, GDBusConnection *connection,
+press_media_key(struct cfg *cfg,
     const gchar *key, const gchar *sender)
 {
 	const char *application;
@@ -190,7 +191,7 @@ press_media_key(struct cfg *cfg, GDBusConnection *connection,
 
 	g_debug("Media key '%s' pressed and sent to %s", key, application);
 
-	if (g_dbus_connection_emit_signal(connection,
+	if (g_dbus_connection_emit_signal(cfg->connection,
 		player_get_dbus_name(player),
 		dbus_object_path,
 		dbus_bus_name,
@@ -234,7 +235,7 @@ handle_method_call(GDBusConnection *connection,
 		const gchar *key;
 
 		g_variant_get(parameters, "(&s)", &key);
-		press_media_key(cfg, connection, key, sender);
+		press_media_key(cfg, key, sender);
 		g_dbus_method_invocation_return_value(invocation, NULL);
 	}
 }
@@ -265,7 +266,9 @@ on_name_acquired(GDBusConnection *connection,
     const gchar *name,
     gpointer user_data)
 {
+	struct cfg *cfg = user_data;
 	g_debug("DBus name %s acquired", name);
+	cfg->connection = connection;
 }
 
 static void
