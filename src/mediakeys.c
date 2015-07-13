@@ -251,7 +251,6 @@ on_bus_acquired(GDBusConnection *connection,
     gpointer user_data)
 {
 	struct cfg *cfg = user_data;
-	g_debug("DBus name %s acquired", name);
 	g_dbus_connection_register_object(connection,
 	    dbus_object_path,
 	    cfg->introspection_data->interfaces[0],
@@ -266,6 +265,7 @@ on_name_acquired(GDBusConnection *connection,
     const gchar *name,
     gpointer user_data)
 {
+	g_debug("DBus name %s acquired", name);
 }
 
 static void
