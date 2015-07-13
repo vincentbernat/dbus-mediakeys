@@ -194,7 +194,7 @@ press_media_key(struct cfg *cfg,
 	if (g_dbus_connection_emit_signal(cfg->connection,
 		player_get_dbus_name(player),
 		dbus_object_path,
-		dbus_bus_name,
+		dbus_interface,
 		"MediaPlayerKeyPressed",
 		g_variant_new("(ss)", application ? application : "", key),
 		&error) == FALSE) {
