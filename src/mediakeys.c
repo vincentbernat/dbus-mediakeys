@@ -338,8 +338,10 @@ main(int argc, char *argv[])
 	g_main_loop_run(cfg.loop);
 	g_debug("End of main loop");
 
+	g_option_context_free(context);
 	g_bus_unown_name(owner_id);
 	g_main_loop_unref(cfg.loop);
+	g_list_free_full(cfg.players, (GDestroyNotify)player_free);
 	g_dbus_node_info_unref(cfg.introspection_data);
 
 	return 0;
