@@ -23,6 +23,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <gio/gio.h>
+#include <glib-unix.h>
 
 static gboolean debug = FALSE;
 
@@ -57,6 +58,15 @@ struct cfg {
 	GList *players;
 };
 
+static gboolean
+on_term_signal(gpointer user_data)
+{
+	struct cfg *cfg = user_data;
+        g_debug ("Received SIGTERM - shutting down");
+        g_main_loop_quit(cfg->loop);
+
+        return FALSE;
+}
 
 static void
 name_vanished_handler(GDBusConnection *connection,
@@ -310,6 +320,9 @@ main(int argc, char *argv[])
 	g_assert(cfg.introspection_data != NULL);
 	cfg.players = NULL;
 
+	g_unix_signal_add(SIGTERM, on_term_signal, &cfg);
+	g_unix_signal_add(SIGINT, on_term_signal, &cfg);
+
 	owner_id = g_bus_own_name(G_BUS_TYPE_SESSION,
 	    dbus_bus_name,
 	    G_BUS_NAME_OWNER_FLAGS_NONE,
@@ -323,6 +336,7 @@ main(int argc, char *argv[])
 	cfg.loop = g_main_loop_new(NULL, FALSE);
 	g_debug("Start main loop...");
 	g_main_loop_run(cfg.loop);
+	g_debug("End of main loop");
 
 	g_bus_unown_name(owner_id);
 	g_main_loop_unref(cfg.loop);
