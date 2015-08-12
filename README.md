@@ -23,6 +23,10 @@ Currently, there is no MPRIS proxy implemented.
 Installation
 ------------
 
+If you're building directly from git, execute the autogen script at first. This is not be neccessary with a normal release.
+
+    $ ./autogen.sh
+
 Execute the following commands:
 
     $ ./configure
