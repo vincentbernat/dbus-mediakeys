@@ -4,7 +4,8 @@ dbus-mediakeys
 This is a very simple daemon exposing the
 `org.gnome.SettingsDaemon.MediaKeys'. Its goal is to be able to talk
 to clients only implementing this interface instead of the more
-general MPRIS interface, like the new version of Spotify.
+general MPRIS interface, like the new version of Spotify (this is not
+the case anymore).
 
 It exposes the `PressMediaKey' method as well. You can use it with
 something like:
