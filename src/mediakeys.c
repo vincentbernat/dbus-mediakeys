@@ -27,7 +27,7 @@
 
 static gboolean debug = FALSE;
 
-static const gchar dbus_bus_name[] = "org.gnome.SettingsDaemon";
+static const gchar dbus_bus_name[] = "org.gnome.SettingsDaemon.MediaKeys";
 static const gchar dbus_object_path[] = "/org/gnome/SettingsDaemon/MediaKeys";
 static const gchar dbus_interface[] = "org.gnome.SettingsDaemon.MediaKeys";
 

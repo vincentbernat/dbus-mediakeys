@@ -10,14 +10,10 @@ the case anymore).
 It exposes the `PressMediaKey' method as well. You can use it with
 something like:
 
-    dbus-send --print-reply --dest=org.gnome.SettingsDaemon \
+    dbus-send --print-reply --dest=org.gnome.SettingsDaemon.MediaKeys \
       /org/gnome/SettingsDaemon/MediaKeys \
       org.gnome.SettingsDaemon.MediaKeys.PressMediaKey \
       string:Play
-
-This is quite a hack since we need to own the
-`org.gnome.SettingsDaemon` name which would prevent any implementation
-of another path to coexist.
 
 Currently, there is no MPRIS proxy implemented.
 
